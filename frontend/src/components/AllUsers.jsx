@@ -5,11 +5,12 @@ import { useUser } from "../../Context/UserContext";
 const USERS_PER_PAGE = 5;
 
 const AllUsers = () => {
-  const {user} = useUser();
-  console.log(user)
+  const {user : loggedInUser} = useUser();
+  console.log(loggedInUser)
   const [allUsers, setAllUsers] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [claimedPoints, setClaimedPoints] = useState({}); // so that it is showm to the user who has claimed the pointes
 
   const fetchSuggestion = async (page) => {
     try {
@@ -23,6 +24,23 @@ const AllUsers = () => {
     }
   };
 
+  const handleClaim = async (userId) =>{
+    console.log(userId)
+    try {
+      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/claimPoints/${userId}`)
+      console.log(res)
+      console.log(res.data)
+      const points = res.data;
+      setClaimedPoints((prev) => ({
+        ...prev,
+        [userId]: points,  // store per user
+      }));
+      
+    } catch (error) {
+      console.log(error);
+      
+    }
+  }
   const handlePrevious = () => {
     if (page > 1) {
       setPage((prev) => prev - 1);
@@ -49,21 +67,33 @@ const AllUsers = () => {
       <div className="space-y-4 max-w-3xl mx-auto">
         {allUsers.length > 0 ? (
           allUsers.map((user) => (
-            <div
-              key={user._id}
-              className="bg-white p-6 rounded-xl shadow-sm flex items-center justify-between"
-            >
-              <div>
-                <p className="text-lg font-semibold text-gray-800">{user.username}</p>
-                <p className="text-sm text-gray-500">ID: {user._id}</p>
+            user._id === loggedInUser._id ? null : (
+              <div
+                key={user._id}
+                className="bg-white p-6 rounded-xl shadow-sm flex items-center justify-between"
+              >
+                <div>
+                  <p className="text-lg font-semibold text-gray-800">{user.username}</p>
+                  <p className="text-sm text-gray-500">ID: {user._id}</p>
+                  {claimedPoints[user._id] && (
+                    <p className="text-green-600 font-medium mt-1">
+                      🎉 Claimed: {claimedPoints[user._id]} points
+                    </p>
+                  )}
+                </div>
+                <button
+                  onClick={() => handleClaim(user._id)}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm transition"
+                >
+                  Claim
+                </button>
+                
               </div>
-              <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm transition">
-                Claim
-              </button>
-            </div>
+              
+            )
           ))
-        ) : (
-          <p className="text-center text-gray-500">No users found.</p>
+          ) : (
+            <p className="text-center text-gray-500">No users found.</p>
         )}
       </div>
 
