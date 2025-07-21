@@ -61,6 +61,25 @@ app.get("/getAllUsers", async (req, res) => {
   }
 });
 
+app.post("/claimPoints/:userId" , async (req , res)=>{
+
+  const userId = req.params.userId;
+  console.log(userId);
+
+  const userToClaimPoints = await User.findOne({_id : userId});
+  console.log(userToClaimPoints)
+
+  const randomPoints = Math.floor(Math.random() * 10) + 1;
+
+  userToClaimPoints.totalPoints+=randomPoints;
+
+  await userToClaimPoints.save();
+
+  return res.status(200).json(randomPoints)
+
+
+})
+
 connectDB()
   .then(() => {
     console.log("Database Connected Successfully");
