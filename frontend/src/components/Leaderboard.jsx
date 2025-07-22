@@ -9,7 +9,8 @@ const Leaderboard = () => {
   const [socket, setSocket] = useState(null);
   useEffect(() => {
     const newSocket = io(import.meta.env.VITE_BACKEND_URL ,{
-      transports: ["websocket"], // 👈 force WebSocket transport
+      transports: ["websocket"],
+      withCredentials : true // 👈 force WebSocket transport
     });
     setSocket(newSocket);
 
