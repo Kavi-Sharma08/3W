@@ -12,7 +12,8 @@ dotenv.config();
 const app = express();
 app.use(express.json()); 
 app.use(cors({
-    origin : "https://chipper-starlight-5e6465.netlify.app"
+    origin : "https://chipper-starlight-5e6465.netlify.app",
+    credentials : true
 }))
 
 app.use("/" , authLogin);
