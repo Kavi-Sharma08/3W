@@ -6,7 +6,6 @@ const USERS_PER_PAGE = 5;
 
 const AllUsers = () => {
   const {user : loggedInUser} = useUser();
-  console.log(loggedInUser);
   const navigate = useNavigate();
   const [allUsers, setAllUsers] = useState([]);
   const [page, setPage] = useState(1);
@@ -26,7 +25,6 @@ const AllUsers = () => {
   };
 
   const handleClaim = async (userId) =>{
-    console.log(userId)
     try {
       const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/claimPoints/${userId}` , {loggedInUser})
       const points = res.data;
