@@ -8,7 +8,7 @@ const Leaderboard = () => {
   const [totalPages, settotalPages] = useState(0);
   const [socket, setSocket] = useState(null);
   useEffect(() => {
-    const newSocket = io(import.meta.env.VITE_WEBSOCKET_URL);
+    const newSocket = io(import.meta.env.VITE_BACKEND_URL);
     setSocket(newSocket);
 
     newSocket.on("leaderboard", (users) => {
