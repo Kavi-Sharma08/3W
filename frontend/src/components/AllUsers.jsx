@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useUser } from "../../Context/UserContext";
-
+import { useNavigate } from "react-router-dom";
 const USERS_PER_PAGE = 5;
 
 const AllUsers = () => {
   const {user : loggedInUser} = useUser();
-  console.log(loggedInUser)
+  console.log(loggedInUser);
+  const navigate = useNavigate();
   const [allUsers, setAllUsers] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -56,6 +57,11 @@ const AllUsers = () => {
   useEffect(() => {
     fetchSuggestion(page);
   }, [page]);
+
+  if(!loggedInUser){
+    return navigate("/")
+    
+  }
 
   return (
     <div className="min-h-screen bg-gray-100 py-10 px-4">
