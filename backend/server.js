@@ -44,7 +44,7 @@ io.on("connection", (socket) => {
 // DB + server start
 connectDB()
   .then(() => {
-    const PORT = process.env.PORT2 || 3000;
+    const PORT = process.env.PORT || 3000;
     server.listen(PORT);
   })
   .catch((err) => {
