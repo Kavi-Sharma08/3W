@@ -21,12 +21,3 @@ app.use("/" , addUser);
 app.use("/" , allUsers);
 app.use("/" , claimPoints);
 app.use("/" , leaderboard)
-
-
-connectDB()
-  .then(() => {
-    app.listen(process.env.PORT || 3000);
-  })
-  .catch((err) => {
-    console.log(err);
-});
