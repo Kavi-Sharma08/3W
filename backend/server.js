@@ -5,11 +5,16 @@ import express from "express"
 import { connectDB } from "./database/DbConnection.js";
 import {User} from "./models/UserModel.js";
 import dotenv from "dotenv";
+import cors from "cors"
 dotenv.config();
 const app =express();
 
 const server = http.createServer(app);
-
+app.use(cors({
+  origin: "https://chipper-starlight-5e6465.netlify.app",
+  methods: ["GET", "POST"],
+  credentials: true
+}));
 const io = new Server(server, {
   cors: {
     origin: "https://chipper-starlight-5e6465.netlify.app",
