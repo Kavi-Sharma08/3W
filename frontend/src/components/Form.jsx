@@ -35,8 +35,6 @@ const Form = () => {
           name: formData.name,
           password: formData.password,
         });
-
-        console.log("User signed up:", res.data);
         // Switch to Login view after successful signup
         setLogin(true);
         // Optionally reset form fields
@@ -47,14 +45,10 @@ const Form = () => {
           username: formData.username,
           password: formData.password,
         });
-
-        console.log("User logged in:", res.data);
         setUser(res.data);
         navigate("/users");
       }
     } catch (error) {
-      console.log(error);
-      console.log(error)
       const message = error?.response?.data?.message || "Something went wrong";
       setUsernameError(message);
     }

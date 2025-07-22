@@ -28,9 +28,7 @@ const AllUsers = () => {
   const handleClaim = async (userId) =>{
     console.log(userId)
     try {
-      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/claimPoints/${userId}`)
-      console.log(res)
-      console.log(res.data)
+      const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/claimPoints/${userId}` , {loggedInUser})
       const points = res.data;
       setClaimedPoints((prev) => ({
         ...prev,
@@ -65,9 +63,39 @@ const AllUsers = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 py-10 px-4">
-      <div className="max-w-3xl mx-auto text-center mb-8">
-        <h1 className="text-3xl font-bold text-gray-800">All Users</h1>
-        <p className="text-gray-500 mt-1">Page {page} of {totalPages}</p>
+      <div className="flex justify-end items-center mb-4">
+        <button
+          onClick={() => navigate("/leaderboard")}
+          className="bg-blue-600  hover:bg-indigo-700 text-white px-4 py-2 rounded-xl font-semibold transition"
+        >
+          View Leaderboard
+        </button>
+      </div>
+      
+      <div className="flex justify-center mb-10 gap-4">
+        <button
+          onClick={handlePrevious}
+          disabled={page === 1}
+          className={`px-5 py-2 rounded-xl border transition font-medium ${
+            page === 1
+              ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+              : "bg-white text-gray-700 hover:bg-gray-100 border-gray-300"
+          }`}
+        >
+          Previous
+        </button>
+        <button
+            onClick={handleNext}
+            disabled={page === totalPages}
+            className={`px-5 py-2 rounded-xl border transition font-medium ${
+              page === totalPages
+                ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                : "bg-white text-gray-700 hover:bg-gray-100 border-gray-300"
+            }`}
+          >
+            Next
+        </button>
+
       </div>
 
       <div className="space-y-4 max-w-3xl mx-auto">
@@ -104,28 +132,9 @@ const AllUsers = () => {
       </div>
 
       <div className="flex justify-center mt-10 gap-4">
-        <button
-          onClick={handlePrevious}
-          disabled={page === 1}
-          className={`px-5 py-2 rounded-xl border transition font-medium ${
-            page === 1
-              ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-              : "bg-white text-gray-700 hover:bg-gray-100 border-gray-300"
-          }`}
-        >
-          Previous
-        </button>
-        <button
-          onClick={handleNext}
-          disabled={page === totalPages}
-          className={`px-5 py-2 rounded-xl border transition font-medium ${
-            page === totalPages
-              ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-              : "bg-white text-gray-700 hover:bg-gray-100 border-gray-300"
-          }`}
-        >
-          Next
-        </button>
+        <div className="max-w-3xl mx-auto text-center mb-8">
+          <p className="text-gray-500 mt-1">Page {page} of {totalPages}</p>
+        </div>
       </div>
     </div>
   );
