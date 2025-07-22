@@ -7,8 +7,6 @@ authLogin.post("/login" , async(req ,res)=>{
   const {username} = req.body;
 
   const userInfo = await User.findOne({username});
-  console.log(userInfo)
-
   if(!userInfo){
     return res.status(400).json({message : "User not exist"});
   }

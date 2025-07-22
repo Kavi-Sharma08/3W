@@ -6,6 +6,8 @@ import {addUser} from "./routes/addUser.js";
 import { claimPoints } from "./routes/claimPoints.js";
 import { allUsers } from "./routes/getAllUsers.js";
 import { authLogin } from "./routes/login.js";
+import{ leaderboard } from "./routes/leaderboard.js"
+import './server.js';
 dotenv.config();
 const app = express();
 app.use(express.json()); 
@@ -17,15 +19,12 @@ app.use("/" , authLogin);
 app.use("/" , addUser);
 app.use("/" , allUsers);
 app.use("/" , claimPoints);
-
+app.use("/" , leaderboard)
 
 
 connectDB()
   .then(() => {
-    console.log("Database Connected Successfully");
-    app.listen(process.env.PORT || 3000, () => {
-      console.log("Listening on port ", process.env.PORT);
-    });
+    app.listen(process.env.PORT || 3000);
   })
   .catch((err) => {
     console.log(err);
